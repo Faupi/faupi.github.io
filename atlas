@@ -1,22 +1,45 @@
-# Prompt manual winget instal through MS Store
-# Start-Job -ScriptBlock{
-Start-Process ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1
-while(Get-AppxPackage | Where-Object Name -eq Microsoft.DesktopAppInstaller | Select-Object Status -neq OK){
-    Start-Sleep 1
+function Get-Winget-Status {
+    (Get-AppxPackage | Where-Object Name -eq Microsoft.DesktopAppInstaller).Status
 }
-winget install Microsoft.WindowsTerminal
-# }
+
+function Install-Winget {
+    If ((Get-Winget-Status) -eq "Ok") {
+        Write-Output "Winget already installed"
+        Return
+    }
+
+    Start-Process ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1  # Winget in the MS store
+    While ((Get-Winget-Status) -ne "Ok") {
+        Start-Sleep 1
+    }
+    Write-Output "Winget installed OKasdasdas"
+}
+
+function Install-Winget-Packages {
+    # Make sure we get winget installed first
+    Install-Winget
+
+    # Install whatever packages - winget can't do multiple in one call
+    # NOTE: Existing installations count as failures for the job because funny
+    winget install Microsoft.WindowsTerminal
+}
+
+# Prompt manual winget instal through MS Store
+$WingetJob = Start-Job -ScriptBlock {Install-Winget-Packages}
 
 choco install -y git --params="'/GitAndUnixToolsOnPath /NoAutoCrlf'"
 
-# choco install -y `
-# 1password vscodium imageglass `
-# modernflyouts msiafterburner equalizerapo nilesoft-shell start10 `
-# firefox `
-# telegram steam discord spotify `
-# sharex paint.net
+choco install -y `
+1password vscodium imageglass `
+modernflyouts msiafterburner equalizerapo nilesoft-shell start10 `
+firefox `
+telegram steam discord spotify `
+sharex paint.net
 
 # choco install icue --version 4.33.138 -y
 # choco install cura-new --version 5.3.0 -y
 # choco install winbox --version 3.37 -y
 # choco install scrcpy --version 2.0 -y
+
+# Make sure to await any potentially slower jobs
+Wait-Job $WingetJob
