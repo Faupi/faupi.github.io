@@ -23,9 +23,10 @@ function Install-Choco-Packages {
     choco install -y git --params="'/GitAndUnixToolsOnPath /NoAutoCrlf'"
     
     choco install -y `
-        1password vscodium imageglass `
+        1password vscodium imageglass oh-my-posh`
         firefox `
-        modernflyouts msiafterburner equalizerapo nilesoft-shell start10 `
+        msiafterburner equalizerapo `
+        modernflyouts nilesoft-shell start10 `
         telegram steam discord spotify `
         sharex paint.net
 
@@ -47,3 +48,8 @@ $WingetPkgsJob | Wait-Job | Receive-Job
 
 Write-Output "=== CHOCO ==="
 $ChocoPkgsJob | Wait-Job | Receive-Job
+
+Write-Output "Setting up oh-my-posh for current profile"
+Set-Content -Path $PROFILE -Value "oh-my-posh init pwsh --config `"https://faupi.net/faupi.omp.json`" | Invoke-Expression"
+
+Write-Output "All done!"
