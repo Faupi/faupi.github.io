@@ -12,34 +12,33 @@ function Install-Winget {
     While ((Get-Winget-Status) -ne "Ok") {
         Start-Sleep 1
     }
-    Write-Output "Winget installed OKasdasdas"
+    Write-Output "Winget installed OK"
 }
 
 function Install-Winget-Packages {
-    # Make sure we get winget installed first
-    Install-Winget
-
-    # Install whatever packages - winget can't do multiple in one call
-    # NOTE: Existing installations count as failures for the job because funny
-    winget install Microsoft.WindowsTerminal
+    winget install Microsoft.WindowsTerminal  # Available in Choco but it has permission issues
 }
 
-# Prompt manual winget instal through MS Store
-$WingetJob = Start-Job -ScriptBlock {Install-Winget-Packages}
+function Install-Choco-Packages {
+    choco install -y git --params="'/GitAndUnixToolsOnPath /NoAutoCrlf'"
+    
+    choco install -y `
+        1password vscodium imageglass `
+        firefox `
+        modernflyouts msiafterburner equalizerapo nilesoft-shell start10 `
+        telegram steam discord spotify `
+        sharex paint.net
 
-choco install -y git --params="'/GitAndUnixToolsOnPath /NoAutoCrlf'"
+    # choco install icue --version 4.33.138 -y
+    # choco install cura-new --version 5.3.0 -y
+    # choco install winbox --version 3.37 -y
+    # choco install scrcpy --version 2.0 -y
+}
 
-choco install -y `
-1password vscodium imageglass `
-modernflyouts msiafterburner equalizerapo nilesoft-shell start10 `
-firefox `
-telegram steam discord spotify `
-sharex paint.net
+# Prompt manual winget installation while choco packages get pulled
+$WingetJob = Start-Job -ScriptBlock { Install-Winget }
+Install-Choco-Packages
 
-# choco install icue --version 4.33.138 -y
-# choco install cura-new --version 5.3.0 -y
-# choco install winbox --version 3.37 -y
-# choco install scrcpy --version 2.0 -y
-
-# Make sure to await any potentially slower jobs
+# After winget's ok to go, install its packages
 Wait-Job $WingetJob
+Install-Winget-Packages
