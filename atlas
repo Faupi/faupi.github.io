@@ -1,7 +1,16 @@
+# Prompt manual winget instal through MS Store
+# Start-Job -ScriptBlock{
+Start-Process ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1
+while(Get-AppxPackage | Where-Object Name -eq Microsoft.DesktopAppInstaller | Select-Object Status -neq OK){
+    Start-Sleep 1
+}
+winget install Microsoft.WindowsTerminal
+# }
+
 choco install -y git --params="'/GitAndUnixToolsOnPath /NoAutoCrlf'"
 
 choco install -y `
-microsoft-windows-terminal 1password vscodium.install imageglass `
+1password vscodium imageglass `
 modernflyouts msiafterburner equalizerapo nilesoft-shell start10 `
 firefox `
 telegram steam discord spotify `
