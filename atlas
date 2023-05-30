@@ -1,8 +1,8 @@
-function Get-Winget-Status {
-    (Get-AppxPackage | Where-Object Name -eq Microsoft.DesktopAppInstaller).Status
-}
-
 function Install-Winget {
+    function Get-Winget-Status {
+        (Get-AppxPackage | Where-Object Name -eq Microsoft.DesktopAppInstaller).Status
+    }
+
     If ((Get-Winget-Status) -eq "Ok") {
         Write-Output "Winget already installed"
         Return
@@ -36,13 +36,13 @@ function Install-Choco-Packages {
 }
 
 # Prompt manual Winget install while Choco pulls packages
-$WingetJob = Start-Job -ScriptBlock { Install-Winget }
-$ChocoPkgsJob = Start-Job -ScriptBlock { Install-Choco-Packages }
+$WingetJob = Start-Job -ScriptBlock ${Function:Install-Winget}
+$ChocoPkgsJob = Start-Job -ScriptBlock ${Function:Install-Choco-Packages}
 
 # Start pulling Winget packages
 Write-Output "=== WINGET ==="
 $WingetJob | Wait-Job | Receive-Job
-$WingetPkgsJob = Start-Job -ScriptBlock { Install-Winget-Packages }
+$WingetPkgsJob = Start-Job -ScriptBlock ${Function:Install-Winget-Packages}
 $WingetPkgsJob | Wait-Job | Receive-Job
 
 Write-Output "=== CHOCO ==="
