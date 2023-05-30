@@ -35,10 +35,15 @@ function Install-Choco-Packages {
     # choco install scrcpy --version 2.0 -y
 }
 
-# Prompt manual winget installation while choco packages get pulled
+# Prompt manual Winget install while Choco pulls packages
 $WingetJob = Start-Job -ScriptBlock { Install-Winget }
-Install-Choco-Packages
+$ChocoPkgsJob = Start-Job -ScriptBlock { Install-Choco-Packages }
 
-# After winget's ok to go, install its packages
-Wait-Job $WingetJob
-Install-Winget-Packages
+# Start pulling Winget packages
+Write-Output "=== WINGET ==="
+$WingetJob | Wait-Job | Receive-Job
+$WingetPkgsJob = Start-Job -ScriptBlock { Install-Winget-Packages }
+$WingetPkgsJob | Wait-Job | Receive-Job
+
+Write-Output "=== CHOCO ==="
+$ChocoPkgsJob | Wait-Job | Receive-Job
