@@ -50,6 +50,9 @@ Write-Output "=== CHOCO ==="
 $ChocoPkgsJob | Wait-Job | Receive-Job
 
 Write-Output "Setting up oh-my-posh for current profile"
+If(-Not Get-Item -Path $PROFILE){
+    New-Item -Path "$PROFILE" -ItemType File
+}
 Set-Content -Path $PROFILE -Value "oh-my-posh init pwsh --config `"https://faupi.net/faupi.omp.json`" | Invoke-Expression"
 
 Write-Output "All done!"
