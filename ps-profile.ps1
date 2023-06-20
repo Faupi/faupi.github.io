@@ -7,10 +7,7 @@ if($LASTEXITCODE -eq 0){
 }
 oh-my-posh init pwsh --config "$OH_MY_POSH_CACHED" | Invoke-Expression
 
-function gco {
-  git checkout $args
-}
-
-function gc {
-  git commit $args
-}
+function gco { git checkout $args }
+function gc { git commit $args }
+function gs { git status $args }
+function gd { git diff $args }
