@@ -18,7 +18,7 @@
           }
         },
         {
-          "type": "exit",
+          "type": "status",
           "style": "plain",
           "foreground": "#F8F8F0",
           "background": "#FF1F1F",
@@ -27,16 +27,16 @@
         {
           "type": "os",
           "style": "plain",
-          "foreground": "#666666",
+          "foreground": "#AAAAAA",
           "background": "#222222",
-          "template": " {{ if .WSL }}\uf68e {{ end }}{{ if .Root }}\uf0e7{{ end }}{{.Icon}}"
+          "template": " {{ if .WSL }}\uf68e {{ end }}{{ if .Root }}\uf0e7{{ end }}{{ .Icon }}"
         },
         {
           "type": "session",
           "style": "plain",
-          "foreground": "#666666",
+          "foreground": "#AAAAAA",
           "background": "#222222",
-          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ .UserName }} "
+          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ .UserName }}@{{ .HostName }} "
         },
         {
           "type": "path",
@@ -52,7 +52,7 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "#f0efe7",
+          "foreground": "#222222",
           "background": "#F54C28",
           "template": " {{ .HEAD }} ",
           "properties": {
