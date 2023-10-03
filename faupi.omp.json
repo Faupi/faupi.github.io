@@ -20,7 +20,7 @@
         {
           "type": "status",
           "style": "plain",
-          "foreground": "#F8F8F0",
+          "foreground": "#FFFFFF",
           "background": "#FF1F1F",
           "template": "{{ if gt .Code 0 }} {{ .Code }} {{ end }}"
         },
@@ -29,14 +29,14 @@
           "style": "plain",
           "foreground": "#AAAAAA",
           "background": "#222222",
-          "template": " {{ if .WSL }}\uf68e {{ end }}{{ if .Root }}\uf0e7{{ end }}{{ .Icon }}"
+          "template": " {{ if .WSL }}\uf68e {{ end }}{{ if .Root }}\uf0e7 {{ end }}{{ if .Env.IN_NIX_SHELL }}<green>nix-shell</> {{ end }}{{ .Icon }}"
         },
         {
           "type": "session",
           "style": "plain",
           "foreground": "#AAAAAA",
           "background": "#222222",
-          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ if .Env.IN_NIX_SHELL }}<green>nix-shell</> {{ end }}{{ .UserName }}@{{ .HostName }} "
+          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ .UserName }}@{{ .HostName }} "
         },
         {
           "type": "path",
@@ -52,9 +52,9 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "#222222",
+          "foreground": "#FFFFFF",
           "background": "#F54C28",
-          "template": "{{ .HEAD }}{{ if and (eq .Ahead 0) (eq .Behind 0) }} \u2261{{end}}{{ if gt .Ahead 0 }} \u2191{{.Ahead}}{{end}}{{ if gt .Behind 0 }} \u2193{{.Behind}}{{end}} {{ if .Working.Changed }}+{{ .Working.Added }} ~{{ .Working.Modified }} -{{ .Working.Deleted }} {{ end }}",
+          "template": " {{ .HEAD }}{{ if and (eq .Ahead 0) (eq .Behind 0) }} \u2261{{end}}{{ if gt .Ahead 0 }} \u2191{{.Ahead}}{{end}}{{ if gt .Behind 0 }} \u2193{{.Behind}}{{end}} {{ if .Working.Changed }}+{{ .Working.Added }} ~{{ .Working.Modified }} -{{ .Working.Deleted }} {{ end }}",
           "properties": {
             "branch_icon": "\ue725 ",
             "cherry_pick_icon": "\ue29b ",
