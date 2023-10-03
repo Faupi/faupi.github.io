@@ -36,7 +36,7 @@
           "style": "plain",
           "foreground": "#AAAAAA",
           "background": "#222222",
-          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ .UserName }}@{{ .HostName }} "
+          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ if .Env.IN_NIX_SHELL }}<green>nix-shell</> {{ end }}{{ .UserName }}@{{ .HostName }} "
         },
         {
           "type": "path",
