@@ -29,7 +29,7 @@
           "style": "plain",
           "foreground": "#AAAAAA",
           "background": "#222222",
-          "template": " {{ if .WSL }}\uf68e {{ end }}{{ if .Root }}\uf0e7 {{ end }}{{ if .Env.IN_NIX_SHELL }}<green>nix-shell</> {{ end }}{{ .Icon }}"
+          "template": " {{ if .WSL }}\uf68e {{ end }}{{ if .Root }}\uf0e7 {{ end }}{{ .Icon }}"
         },
         {
           "type": "session",
@@ -112,13 +112,27 @@
     },
     {
       "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#000000",
+          "background": "#1FB0FF",
+          "template": "{{ if and .Env.IN_NIX_SHELL .Env.ANY_NIX_SHELL_PKGS }}{{ .Env.ANY_NIX_SHELL_PKGS }} {{ end }}"
+        }
+      ],
+      "newline": false
+    },
+    {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
           "type": "shell",
           "style": "plain",
-          "foreground": "#007ACC",
-          "template": "{{ .Name }} ",
+          "foreground": "#1FB0FF",
+          "template": "{{ if .Env.IN_NIX_SHELL }}nix-shell {{ end }}{{ .Name }} ",
           "properties": {
             "mapped_shell_names": {
               "bash": "$",
