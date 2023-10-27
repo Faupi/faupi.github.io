@@ -130,6 +130,7 @@
       "segments": [
         {
           "type": "shell",
+          "alias": "ShellPrompt",
           "style": "plain",
           "foreground": "#1FB0FF",
           "template": "{{ if .Env.IN_NIX_SHELL }}nix-shell {{ end }}{{ .Name }} ",
@@ -149,5 +150,10 @@
       ],
       "newline": true
     }
-  ]
+  ],
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "#1FB0FF",
+    "template": "{{ replaceP \"%\" .Segments.ShellPrompt.Name \"%%\" }} "
+  }
 }
