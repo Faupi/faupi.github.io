@@ -154,6 +154,6 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "#1FB0FF",
-    "template": "{{ replaceP \"%\" .Segments.ShellPrompt.Name \"%%\" }} "
+    "template": "{{ if .Env.IN_NIX_SHELL }}nix-shell {{ end }}{{ replaceP \"%\" .Segments.ShellPrompt.Name \"%%\" }} "
   }
 }
